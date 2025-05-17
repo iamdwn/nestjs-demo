@@ -1,7 +1,7 @@
 {
   "name": "nest-basic-hoidanit",
   "version": "0.0.1",
-  "description": "https://hoidanit.com.vn/",
+  "description": "demo-nestjs-basic",
   "author": "Hỏi Dân IT",
   "private": true,
   "license": "UNLICENSED",
@@ -25,7 +25,8 @@
     "@nestjs/core": "9.4.0",
     "@nestjs/platform-express": "9.4.0",
     "reflect-metadata": "0.1.13",
-    "rxjs": "7.2.0"
+    "rxjs": "7.2.0",
+    "ejs": "3.1.9"
   },
   "devDependencies": {
     "@nestjs/cli": "9.4.2",
