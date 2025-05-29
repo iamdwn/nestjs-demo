@@ -6,6 +6,7 @@ import { UsersModule } from './users/users.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { StatefulModule } from './stateful/stateful.module';
 import { StatelessModule } from './stateless/stateless.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -19,7 +20,8 @@ import { StatelessModule } from './stateless/stateless.module';
     }),
     UsersModule,
     StatefulModule,
-    StatelessModule
+    StatelessModule,
+    AuthModule
   ],
   controllers: [AppController],
   providers: [AppService],

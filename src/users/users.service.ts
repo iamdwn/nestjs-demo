@@ -50,7 +50,6 @@ export class UsersService implements OnModuleInit {
     }
   }
 
-
   async findAll() {
     return await this.userModel.find({});
   }
