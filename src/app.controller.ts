@@ -6,6 +6,7 @@ import { Request, Response } from 'express';
 import { AuthenticatedGuard } from './stateful/passport/stateful.local.authenticated.guard';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from './auth/auth.service';
+import { JwtAuthGuard } from './stateless/passport/stateless.jwt.auth.guard';
 
 @Controller()
 export class AppController {
@@ -19,6 +20,12 @@ export class AppController {
   @Post('/login')
   handleLogin(@Req() req){
     return this.authService.login(req.user);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('profile')
+  getProfile(@Req() req) {
+    return req.user;
   }
 
   @Get()
