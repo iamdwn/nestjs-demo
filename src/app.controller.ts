@@ -5,18 +5,20 @@ import { LocalAuthGuard } from './stateful/passport/stateful.local.auth.guard';
 import { Request, Response } from 'express';
 import { AuthenticatedGuard } from './stateful/passport/stateful.local.authenticated.guard';
 import { AuthGuard } from '@nestjs/passport';
+import { AuthService } from './auth/auth.service';
 
 @Controller()
 export class AppController {
   constructor(
     private readonly appService: AppService,
-    private readonly usersService: UsersService
+    private readonly usersService: UsersService,
+    private readonly authService: AuthService
   ) { }
 
   @UseGuards(LocalAuthGuard)
   @Post('/login')
   handleLogin(@Req() req){
-    return req.user;
+    return this.authService.login(req.user);
   }
 
   @Get()
