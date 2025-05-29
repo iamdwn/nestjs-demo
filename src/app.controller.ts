@@ -4,6 +4,7 @@ import { UsersService } from './users/users.service';
 import { LocalAuthGuard } from './stateful/passport/stateful.local.auth.guard';
 import { Request, Response } from 'express';
 import { AuthenticatedGuard } from './stateful/passport/stateful.local.authenticated.guard';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller()
 export class AppController {
@@ -12,6 +13,11 @@ export class AppController {
     private readonly usersService: UsersService
   ) { }
 
+  @UseGuards(LocalAuthGuard)
+  @Post('/login')
+  handleLogin(@Req() req){
+    return req.user;
+  }
 
   @Get()
   getHomePage(@Req() req: Request, @Res() res: Response) {
@@ -36,9 +42,6 @@ export class AppController {
     return { users: usersList };
   }
 
-  //tham khảo: https://www.loginradius.com/blog/engineering/guest-post/session-authentication-with-nestjs-and-mongodb/
-  //https://www.loginradius.com/blog/engineering/guest-post/session-authentication-with-nestjs-and-mongodb/
-
   @UseGuards(LocalAuthGuard)
   @Post('/login')
   async handleLoginStateful(@Req() req: Request, @Res() res: Response) {
@@ -52,6 +55,5 @@ export class AppController {
       if (err) console.log(err)
       return res.redirect("/")
     });
-
   }
 }
