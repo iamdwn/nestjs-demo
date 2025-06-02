@@ -7,6 +7,7 @@ import { AuthenticatedGuard } from './stateful/passport/stateful.local.authentic
 import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from './auth/auth.service';
 import { JwtAuthGuard } from './stateless/passport/stateless.jwt.auth.guard';
+import { Public } from './decorator/customize';
 
 @Controller()
 export class AppController {
@@ -16,6 +17,7 @@ export class AppController {
     private readonly authService: AuthService
   ) { }
 
+  @Public()
   @UseGuards(LocalAuthGuard)
   @Post('/login')
   handleLogin(@Req() req){
