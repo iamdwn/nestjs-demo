@@ -6,6 +6,7 @@ import { AuthService } from './auth.service';
 import { AuthenticatedGuard } from '@/stateful/passport/stateful.local.authenticated.guard';
 import { Request, Response } from 'express';
 import { IUser } from '@/users/users.interface';
+import { request } from 'http';
 
 @Controller("auth")
 export class AuthController {
@@ -32,6 +33,14 @@ export class AuthController {
   @Get('/account')
   handleGetAccount(@User() user: IUser) {
     return { user };
+  }
+
+  @ResponseMessage("Get user refesh token")
+  @Get('/refresh')
+  handleRefreshToken(@Req() request: Request, @Res({ passthrough: true }) response: Response) {
+    const refreshToken = request.cookies['refresh_token'];
+
+    return this.authService.processRefreshToken(refreshToken, response);
   }
 
   //   @Get()
