@@ -4,7 +4,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { User, UserDocument } from './schemas/user.schema';
 import { genSaltSync, hashSync, compareSync } from 'bcryptjs';
 import { ConfigService } from '@nestjs/config';
-import {SoftDeleteModel} from 'soft-delete-mongoose'
+import { SoftDeleteModel } from 'soft-delete-mongoose'
 
 @Injectable()
 export class UsersService implements OnModuleInit {
@@ -62,11 +62,19 @@ export class UsersService implements OnModuleInit {
     return compareSync(hash, plain);
   }
 
-  remove (id: string) {
+  remove(id: string) {
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return 'Invalid ID format';
     }
-    return this.userModel.softDelete({ _id: id }) ;
+    return this.userModel.softDelete({ _id: id });
   }
-  
+
+  updateUserToken = async (refreshToken: string, _id: string) => {
+    return await this.userModel.updateOne(
+      { _id },
+      {
+        refreshToken
+      }
+    )
+  }
 }
