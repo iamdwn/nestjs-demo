@@ -68,4 +68,5 @@ export class UsersService implements OnModuleInit {
     }
     return this.userModel.softDelete({ _id: id }) ;
   }
+  
 }

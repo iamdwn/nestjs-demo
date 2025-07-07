@@ -1,13 +1,15 @@
 import { IUser } from '@/users/users.interface';
 import { UsersService } from '@/users/users.service';
 import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
     constructor(
         private usersService: UsersService,
-        private readonly jwtService: JwtService,
+        private jwtService: JwtService,
+        private configService: ConfigService
     ) { }
 
     async validateUser(email: string, pass: string): Promise<any> {
@@ -33,12 +35,25 @@ export class AuthService {
             email,
             role
         };
+
+        const refresh_token = this.createRefreshToken(payload);
         return {
             access_token: this.jwtService.sign(payload),
-            _id,
-            name,
-            email,
-            role
+            refresh_token,
+            user: {
+                _id,
+                name,
+                email,
+                role
+            }
         };
+    }
+
+    createRefreshToken(payload: any) {
+        const refresh_token = this.jwtService.sign(payload, {
+            secret: this.configService.get<string>('JWT_REFRESH_SECRET'),
+            expiresIn: this.configService.get<string>('JWT_REFRESH_EXPIRATION_TIME')
+        });
+        return refresh_token;
     }
 }
