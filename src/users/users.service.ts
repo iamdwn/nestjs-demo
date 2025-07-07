@@ -1,17 +1,17 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
-import { Model } from 'mongoose';
+import mongoose, { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
-import { User } from './schemas/user.schema';
+import { User, UserDocument } from './schemas/user.schema';
 import { genSaltSync, hashSync, compareSync } from 'bcryptjs';
 import { ConfigService } from '@nestjs/config';
-
+import {SoftDeleteModel} from 'soft-delete-mongoose'
 
 @Injectable()
 export class UsersService implements OnModuleInit {
 
   constructor(
     @InjectModel(User.name)
-    private userModel: Model<User>,
+    private userModel: SoftDeleteModel<UserDocument>,
     private configService: ConfigService
   ) { }
 
@@ -60,5 +60,12 @@ export class UsersService implements OnModuleInit {
 
   checkPassword(hash: string, plain: string) {
     return compareSync(hash, plain);
+  }
+
+  remove (id: string) {
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return 'Invalid ID format';
+    }
+    return this.userModel.softDelete({ _id: id }) ;
   }
 }
