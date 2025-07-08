@@ -85,7 +85,7 @@ export class AuthService {
 
                 const refresh_token = this.createRefreshToken(payload);
                 await this.usersService.updateUserToken(refresh_token, user._id.toString());
-                
+
                 response.clearCookie('refresh_token');
 
                 response.cookie('refresh_token', refresh_token, {
@@ -107,5 +107,11 @@ export class AuthService {
         } catch (error) {
             throw new BadRequestException('Invalid refresh token');
         }
+    }
+
+    logout = async (response: Response, user: IUser) => {
+        await this.usersService.updateUserToken("", user._id);
+        response.clearCookie('refresh_token');
+        return { message: 'Logout successful' };
     }
 }
