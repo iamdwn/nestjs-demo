@@ -24,6 +24,8 @@ export class DatabasesService {
   ) { }
 
   onModuleInit() {
-    console.log('DatabasesService initialized');
+    const isInit = this.configService.get<string>('SHOULE_INIT');
+    if (Boolean(isInit)) {
+    }
   }
 }
