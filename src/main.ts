@@ -9,7 +9,7 @@ import ms from 'ms';
 import passport from "passport"
 import { JwtAuthGuard } from './auth/jwt-auth.guard';
 import { TransformInterceptor } from './core/transform.interceptor';
-import { VersioningType } from '@nestjs/common';
+import { ValidationPipe, VersioningType } from '@nestjs/common';
 import cookieParser from 'cookie-parser';
 
 async function bootstrap() {
@@ -28,6 +28,10 @@ async function bootstrap() {
   app.useStaticAssets(join(__dirname, '..', 'src/public'));
   app.setBaseViewsDir(join(__dirname, '..', 'src/views'));
   app.setViewEngine('ejs');
+
+  app.useGlobalPipes(new ValidationPipe({
+    whitelist: true
+  }))
 
   //config cookies
   app.use(cookieParser());

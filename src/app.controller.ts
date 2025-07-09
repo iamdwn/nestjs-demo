@@ -8,6 +8,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from './auth/auth.service';
 import { JwtAuthGuard } from './stateless/passport/stateless.jwt.auth.guard';
 import { Public } from './decorator/customize';
+import { Cron, CronExpression } from '@nestjs/schedule';
 
 @Controller()
 export class AppController {
@@ -66,5 +67,10 @@ export class AppController {
       if (err) console.log(err)
       return res.redirect("/")
     });
+  }
+
+  @Cron(CronExpression.EVERY_30_SECONDS)
+  testCron() {
+    console.log("Cron job executed every 30 seconds");
   }
 }
