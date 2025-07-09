@@ -12,6 +12,7 @@ import { TransformInterceptor } from './core/transform.interceptor';
 import { ValidationPipe, VersioningType } from '@nestjs/common';
 import cookieParser from 'cookie-parser';
 import helmet from 'helmet';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(
@@ -69,6 +70,15 @@ async function bootstrap() {
   });
 
   app.use(helmet());
+
+  const config = new DocumentBuilder()
+    .setTitle('NestJS Application')
+    .setDescription('API documentation for the NestJS application')
+    .setVersion('1.0')
+    .addTag('nestjs')
+    .build();
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api/docs', app, document);
 
   await app.listen(configService.get<string>('PORT'));
 }

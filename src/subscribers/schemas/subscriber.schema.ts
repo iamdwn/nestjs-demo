@@ -2,10 +2,10 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { HydratedDocument } from 'mongoose';
 import { timestamp } from 'rxjs';
 
-export type SubcriberDocument = HydratedDocument<Subcriber>;
+export type SubscriberDocument = HydratedDocument<Subscriber>;
 
 @Schema({ timestamps: true })
-export class Subcriber {
+export class Subscriber {
     @Prop({ required: true })
     email: string;
 
@@ -46,4 +46,4 @@ export class Subcriber {
     deletedAt: Date;
 }
 
-export const SubcriberSchema = SchemaFactory.createForClass(Subcriber);
+export const SubscriberSchema = SchemaFactory.createForClass(Subscriber);

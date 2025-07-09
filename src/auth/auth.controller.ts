@@ -8,7 +8,9 @@ import { Request, Response } from 'express';
 import { IUser } from '@/users/users.interface';
 import { request } from 'http';
 import { Throttle, ThrottlerGuard } from '@nestjs/throttler';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('auth')
 @Controller("auth")
 export class AuthController {
   constructor(
