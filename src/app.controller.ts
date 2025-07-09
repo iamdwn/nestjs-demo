@@ -21,8 +21,8 @@ export class AppController {
   @Public()
   @UseGuards(LocalAuthGuard)
   @Post('/login')
-  handleLogin(@Req() req){
-    return this.authService.login(req.user);
+  handleLogin(@Req() req, @Res() res: Response){
+    return this.authService.login(req.user, res);
   }
 
   @UseGuards(JwtAuthGuard)

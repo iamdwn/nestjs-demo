@@ -11,6 +11,7 @@ import { JwtAuthGuard } from './auth/jwt-auth.guard';
 import { TransformInterceptor } from './core/transform.interceptor';
 import { ValidationPipe, VersioningType } from '@nestjs/common';
 import cookieParser from 'cookie-parser';
+import helmet from 'helmet';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(
@@ -66,6 +67,8 @@ async function bootstrap() {
     prefix: 'api/v1',
     defaultVersion: ['1', '2']
   });
+
+  app.use(helmet());
 
   await app.listen(configService.get<string>('PORT'));
 }
