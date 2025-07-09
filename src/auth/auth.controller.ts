@@ -7,6 +7,7 @@ import { AuthenticatedGuard } from '@/stateful/passport/stateful.local.authentic
 import { Request, Response } from 'express';
 import { IUser } from '@/users/users.interface';
 import { request } from 'http';
+import { Throttle, ThrottlerGuard } from '@nestjs/throttler';
 
 @Controller("auth")
 export class AuthController {
@@ -16,6 +17,8 @@ export class AuthController {
 
   @Public()
   @UseGuards(LocalAuthGuard)
+  @UseGuards(ThrottlerGuard)
+  @Throttle(3, 60)
   @Post('/login')
   handleLogin(@Req() req, @Res({ passthrough: true }) response: Response) {
     {
